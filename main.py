@@ -99,3 +99,9 @@ def sales_data(request):
     except Exception as e:
         logger.error(f"Exception: {e}")
         return make_response(jsonify({"error": "Internal error", "details": str(e)}), 500)
+
+# Launcher block for Cloud Run buildpack deployment
+if __name__ == "__main__":
+    from functions_framework import create_app
+    app = create_app(target='sales_data')
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
